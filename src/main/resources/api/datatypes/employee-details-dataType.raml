@@ -1,0 +1,187 @@
+#%RAML 1.0 Library
+usage: The employee personal details
+types:
+  personal-lookup:
+    description: Personal details of employee
+    type: array
+    items:
+      type: object
+      properties:
+        name:
+          type: string
+          required: true
+          example: "Revanth Reddy"
+        gender:
+          type: string
+          required: true
+          example: "Male"
+        dateOfBirth:
+          type: string
+          required: true
+          example: "25-10-1995"
+        maritalStatus:
+          type: string
+          required: true
+          example: "Unmarried"
+        spouseName:
+          type: string
+          required: true
+          example: "PonkMuia"
+        spouseAge:
+          type: number
+          required: true
+          example: 25
+        childName:
+          type: string
+          required: true
+          example: "PapsvaTi"
+        address:
+          type: string
+          required: true
+          example: "2/190-A, K.K.Street"
+        village:
+          type: string
+          required: true
+          example: "Duvvur"
+        district:
+          type: string
+          required: true
+          example: "Kadapa"
+        state:
+          type: string
+          required: true
+          example: "Andhra Pradesh"
+        country:
+          type: string
+          required: true
+          example: "India"
+        pinCode:
+          type: number
+          required: true
+          example: 516175
+        emailId:
+          type: string
+          required: true
+          example: "revanth@gmail.com"
+        phNo:
+          type: number
+          required: true
+          example: 8142602737
+  official-lookup:
+    type: array
+    items:
+      type: object
+      properties:
+        empId:
+          type: number
+          required: true
+          example: 1003261
+        empUserName:
+          type: string
+          required: true
+          example: "PREDDY"
+        firstName:
+          type: string
+          required: true
+          example: "Revanth Reddy"
+        lastName:
+          type: string
+          required: true
+          example: "Penugonda"
+        joinedDate:
+          type: string
+          required: true
+          example: "06/09/2021"
+        companyEmail:
+          type: string
+          required: true
+          example: "penugonda.reddy@insite360suite.com"
+        status:
+          type: string
+          required: true
+          example: "Active"
+  enroll-lookup:
+    type: array
+    items:
+      type: object
+      properties:
+        EmpId:
+          type: number
+          required: true
+          example: 1003261
+        Name:
+          type: string
+          required: true
+          example: "Revanth Reddy Penugonda"
+        EmpUserName:
+          type: string
+          required: true
+          example: "PREDDY"
+        Gender:
+          type: string
+          required: true
+          example: "Male"
+        DOB:
+          type: string
+          required: true
+          example: "25-10-1995"
+        MaritalStatus:
+          type: string
+          required: true
+          example: "UnMarried"
+        SpouseName:
+          type: string
+          required: true
+          example: "PonkMuia"
+        SpouseAge:
+          type: number
+          required: true
+          example: 25
+        ChildName:
+          type: string
+          required: true
+          example: "PapsvaTi"
+        Address:
+          type: string
+          required: true
+          example: "2/190-A, K.K.Street"
+        Village:
+          type: string
+          required: true
+          example: "Duvvur"
+        District:
+          type: string
+          required: true
+          example: "Kadapa"
+        State:
+          type: string
+          required: true
+          example: "Andhra Pradesh"
+        Country:
+          type: string
+          required: true
+          example: "India"
+        PinCode:
+          type: number
+          required: true
+          example: 516175
+        Email:
+          type: string
+          required: true
+          example: "revanth@gmail.com"
+        PhNo:
+          type: number
+          required: true
+          example: 8142602737
+        JoinedDate:
+          type: string
+          required: true
+          example: "06/09/2021"
+        CompanyEmail:
+          type: string
+          required: true
+          example: "penugonda.reddy@insite360suite.com"
+        Status:
+          type: string
+          required: true
+          example: "Active"

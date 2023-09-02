@@ -1,0 +1,4 @@
+%dw 2.0
+
+type auto_105b665b_6610_44ad_b5b5_fbb416416739_Output_Payload = Array<{  empId: Number,   firstName: String,   lastName: String,   companyEmail: String,   empUserName: String,   joinedDate: String,   status: String,   _?: Any}>
+

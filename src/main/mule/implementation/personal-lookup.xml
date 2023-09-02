@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="personal-lookupFlow" doc:id="cc0f8a92-5fe0-48d9-969d-ac018fb00336" >
+		<logger level="INFO" doc:name="Start Logger" doc:id="210e9f58-f209-48e5-9ed1-f72cfe664c46" message='#["START-personal-lookup-flow-START"]'/>
+		<db:select doc:name="Select" doc:id="9a25eb33-25c8-47ed-84c9-c169fbb367e7" config-ref="Database_Config">
+			<db:sql ><![CDATA[select * from personal]]></db:sql>
+		</db:select>
+		<ee:transform doc:name="Output payload ransform Message" doc:id="beb3ea81-0eb9-4849-9fb1-fd734830bbed">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="End Logger" doc:id="7627b80d-4a55-4ec1-84dc-b0076c350742" message='#["END-personal-lookup-flow-END"]'/>
+	</flow>
+</mule>

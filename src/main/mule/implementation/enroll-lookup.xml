@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="enroll-lookupFlow" doc:id="5b625a6b-7db7-42ab-ae99-8a483583d0bc" >
+		<logger level="INFO" doc:name="Start Logger" doc:id="8cea4c63-fca1-40a8-8d2b-263d00935a0e" message='#["START-enroll-lookup-flow-START"]'/>
+		<ee:transform doc:name="Transform Message" doc:id="bfbe9b9c-2744-4b80-a7cd-c94daf568213" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+payload map ( payload01 , indexOfPayload01 ) -> {
+	Name: payload01.Name,
+	EmpUserName__c: payload01.EmpUserName,
+	Gender__c: payload01.Gender,
+	DOB__c: payload01.DOB,
+	MaritalStatus__c: payload01.MaritalStatus,
+	SpouseName__c: if (payload01.MaritalStatus == "Married") payload01.SpouseName else null,
+	SpouseAge__c: if (payload01.MaritalStatus == "Married") payload01.SpouseAge else null,
+	ChildName__c: if (payload01.MaritalStatus == "Married") payload01.ChildName else null,
+	Address__c: payload01.Address,
+	Village__c: payload01.Village,
+	District__c: payload01.District,
+	State__c: payload01.State,
+	Country__c: payload01.Country,
+	PinCode__c: payload01.PinCode,
+	Email__c: payload01.Email,
+	EmpId__c: payload01.EmpId,
+	JoinedDate__c: payload01.JoinedDate,
+	CompanyEmail__c: payload01.CompanyEmail,
+	Status__c: payload01.Status,
+	PhNo__c: payload01.PhNo as String
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<salesforce:upsert objectType="employee_data__c" externalIdFieldName="Name" doc:name="Upsert" doc:id="d6877544-85a6-4bff-9134-db80d91feaf8" config-ref="Salesforce_Config"/>
+		<ee:transform doc:name="Output Transform Message" doc:id="4f26ba7a-7dfd-4a27-af25-6fd1edd7355a">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+  status: 201,
+  Message: "successfully created"
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="End Logger" doc:id="c1f87d9e-fc1a-4421-8f84-6a4812beb547" message='#["END-enroll-lookup-flow-END"]'/>
+	</flow>
+</mule>

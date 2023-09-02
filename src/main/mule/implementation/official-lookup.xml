@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="official-lookupFlow" doc:id="105b665b-6610-44ad-b5b5-fbb416416739" >
+		<logger level="INFO" doc:name="Start Logger" doc:id="89fd7cb5-e49b-4cbc-9b43-98944f0a034a" message='#["START-official-lookup-flow-START"]'/>
+		<db:select doc:name="Select" doc:id="13eece11-895b-4c19-9e1e-b84d0ec325a8" config-ref="Database_Config">
+			<db:sql ><![CDATA[select * from official ]]></db:sql>
+		</db:select>
+		<ee:transform doc:name="Output payload Transform Message" doc:id="5914611f-be7a-4690-96d3-b6aae26c65df">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="End Logger" doc:id="cce95f2e-6db4-4a89-845d-03e715034803" message='#["END-official-lookup-flow-END"]'/>
+	</flow>
+</mule>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd ">
+    <apikit:config name="sys-emp-enrolling-process-config" api="sys-emp-enrolling-process.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
+    <flow name="sys-emp-enrolling-process-main">
+        <http:listener path="/api/*" config-ref="HTTP_Listener_config">
+            <http:response statusCode="#[vars.httpStatus default 200]">
+                <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
+            </http:response>
+            <http:error-response statusCode="#[vars.httpStatus default 500]">
+                <http:body><![CDATA[#[payload]]]></http:body>
+                <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
+            </http:error-response>
+        </http:listener>
+        <logger level="INFO" doc:name="Start Logger" doc:id="f2c355dc-d3bd-4a15-b1e2-a4e434faf6b3" message='#["START-sys-emp-enrolling-process-main-START"]'/>
+		<apikit:router config-ref="sys-emp-enrolling-process-config" />
+        <logger level="INFO" doc:name="End Logger" doc:id="d69dd4e8-c725-46e1-8e7c-25e353b30e95" message='#["END-sys-emp-enrolling-process-main-END"]'/>
+		<error-handler ref="Global-Error-Handling-for-sys-emp-enrolling-process-main">
+        </error-handler>
+    </flow>
+    <flow name="sys-emp-enrolling-process-console">
+        <http:listener path="/console/*" config-ref="HTTP_Listener_config">
+            <http:response statusCode="#[vars.httpStatus default 200]">
+                <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
+            </http:response>
+            <http:error-response statusCode="#[vars.httpStatus default 500]">
+                <http:body><![CDATA[#[payload]]]></http:body>
+                <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
+            </http:error-response>
+        </http:listener>
+        <apikit:console config-ref="sys-emp-enrolling-process-config" />
+        <error-handler>
+            <on-error-propagate type="APIKIT:NOT_FOUND">
+                <ee:transform>
+                    <ee:message>
+                        <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{message: "Resource not found"}]]></ee:set-payload>
+                    </ee:message>
+                    <ee:variables>
+                        <ee:set-variable variableName="httpStatus">404</ee:set-variable>
+                    </ee:variables>
+                </ee:transform>
+            </on-error-propagate>
+        </error-handler>
+    </flow>
+    <flow name="put:\enroll-lookup:application\json:sys-emp-enrolling-process-config">
+		<flow-ref doc:name="enroll-lookup Flow Reference" doc:id="8e11662a-821b-4dc2-9e97-ba397a060ad9" name="enroll-lookupFlow"/>
+    </flow>
+    <flow name="get:\official-lookup:sys-emp-enrolling-process-config">
+		<flow-ref doc:name="official-lookup Flow Reference" doc:id="19d97204-cc7c-4e38-9af0-b458b10e7b22" name="official-lookupFlow"/>
+    </flow>
+    <flow name="get:\personal-lookup:sys-emp-enrolling-process-config">
+		<flow-ref doc:name="personal-lookup Flow Reference" doc:id="28ca1b11-fee2-4141-b95f-5ffb2e4a97d3" name="personal-lookupFlow"/>
+    </flow>
+</mule>

@@ -1,0 +1,36 @@
+#%RAML 1.0
+title: sys-employee-enrolling-process
+baseUri: http://localhost:8081
+traits:
+  errresp: !include traits/error-response-trait.raml
+  clientidsec: !include traits/client-id-secret-trait.raml
+  enrreq: !include traits/enroll-lookup-trait.raml
+  enrsucresp: !include traits/enroll-success-trait.raml
+uses:
+  perlook: datatypes/employee-details-dataType.raml
+
+/personal-lookup:
+  get:
+    is: [errresp, clientidsec]
+    responses:
+      201:
+        body:
+          application/json:
+            type: perlook.personal-lookup
+            example: !include examples/personal-details.json
+
+/official-lookup:
+  get:
+    is: [errresp, clientidsec]   
+    responses:
+      201:
+        body:
+          application/json:
+            type: perlook.official-lookup 
+            example: !include examples/official-details.json
+/enroll-lookup:
+  put:
+    is: [errresp,enrreq, enrsucresp, clientidsec]
+    body:
+      application/json:
+        type: perlook.enroll-lookup

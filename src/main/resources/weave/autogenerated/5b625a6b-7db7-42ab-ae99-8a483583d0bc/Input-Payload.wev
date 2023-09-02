@@ -1,0 +1,4 @@
+%dw 2.0
+
+type auto_5b625a6b_7db7_42ab_ae99_8a483583d0bc_Input_Payload = Array<{  Status: String,   Email: String,   ChildName: String,   Address: String,   Village: String,   CompanyEmail: String,   Gender: String,   SpouseName: String,   Name: String,   PinCode: Number,   EmpUserName: String,   MaritalStatus: String,   DOB: String,   State: String,   Country: String,   SpouseAge: Number,   EmpId: Number,   PhNo: Number,   District: String,   JoinedDate: String,   _?: Any}>
+
